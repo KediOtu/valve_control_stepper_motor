@@ -1,4 +1,4 @@
-int dtime = 3; //delay time at each step
+int dtime = 2; //delay time at each step
 //The delay time determines the rotational speed of the motor.
 //Motor driver pin connections:
 #define IN1 11 
@@ -15,30 +15,42 @@ void setup() {
 }
 void loop() {
   // 512 Steps is one full lap. So 360degree
-  ClockWise(512); //one full turn clockwise
+  halfOpen(5,512);//opens the valve of the machine halfway
   delay(1000);
-  CntrClockWise(512);//one full turn counterclockwise
+  halfClose(5,512); //closes the valve of the machine halfway
   delay(1000);
-  fullOpen(5,512);//full opening of the valve
+  fullOpen(5,512);
   delay(1000);
-  fullClose(5,512);//full closing of the valve
+  fullClose(5,512);
   delay(1000);
 }
 
 void fullOpen(int tours, int steps){
-  for(int i=1; i<=tours;i++){
+  for(int i=1; i<=tours*2;i++){
     ClockWise(steps);
   }
 }//function written for full opening of the valve
 
 void fullClose(int tours, int steps){
-  for(int i=1; i<=tours;i++){
+  for(int i=1; i<=tours*2;i++){
     CntrClockWise(steps);
   }
 }//function written for full closing of the valve
 
+void halfOpen(int tours, int steps){
+  for(int i=1; i<=tours;i++){
+    ClockWise(steps);
+  }
+}//function written for half opening of the valve
+
+void halfClose(int tours, int steps){
+  for(int i=1; i<=tours;i++){
+    CntrClockWise(steps);
+  }
+}//function written for half closing of the valve
+
 void ClockWise(int steps) {
-  for (int i = 0; i < steps; i++) {
+  for (int i = 0; i < steps/2; i++) {
     digitalWrite(IN4, HIGH);
     delay(dtime);
     digitalWrite(IN4, LOW);
@@ -52,9 +64,9 @@ void ClockWise(int steps) {
     delay(dtime);
     digitalWrite(IN1, LOW);
   }
-}
+}//a half turn not a full turn
 void CntrClockWise(int steps) {
-  for (int i = 0; i < steps; i++) {
+  for (int i = 0; i < steps/2; i++) {
     digitalWrite(IN1, HIGH);
     delay(dtime);
     digitalWrite(IN1, LOW);
@@ -68,4 +80,4 @@ void CntrClockWise(int steps) {
     delay(dtime);
     digitalWrite(IN4, LOW);
   }
-}
+}//a half turn not a full turn
